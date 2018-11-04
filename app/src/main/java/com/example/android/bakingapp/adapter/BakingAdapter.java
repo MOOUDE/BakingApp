@@ -62,7 +62,9 @@ final private BakingClickedListener bakingClickedListener;
         ((Item)viewHolder).bakingName.setText(bakingFullName);
 
 
-        Glide.with(context).load("https://images.pexels.com/photos/242429/pexels-photo-242429.jpeg?auto=compress&cs=tinysrgb&h=350").into(((Item)viewHolder).bakingImage);
+        Glide.with(context).load("https://images.pexels.com/" +
+                "photos/242429/pexels-photo-242429.jpeg?auto=compress&" +
+                "cs=tinysrgb&h=350").into(((Item)viewHolder).bakingImage);
 
 
     }

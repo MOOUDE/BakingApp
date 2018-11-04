@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
 private ArrayList<Baking> bakings;
 private RecyclerView bakingRecyclerView;
 private final String INTEGRADINTS_KEY = "integradentsKey";
+private final String STEPS_KEY = "StepsKey";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +65,8 @@ private final String INTEGRADINTS_KEY = "integradentsKey";
 
 
                         Intent intent = new Intent(MainActivity.this , com.example.android.bakingapp.activity.BakingMake.class);
-                        intent.putParcelableArrayListExtra(INTEGRADINTS_KEY ,bakings.get(clicked_position).getIngredients());
+                        intent.putParcelableArrayListExtra(INTEGRADINTS_KEY ,bakings.get(clicked_position).getSteps());
+                        intent.putParcelableArrayListExtra(STEPS_KEY ,bakings.get(clicked_position).getSteps());
                         startActivity(intent);
                     }
                 };
@@ -76,6 +80,7 @@ private final String INTEGRADINTS_KEY = "integradentsKey";
             @Override
             public void onFailure(Call<ArrayList<Baking>> call, Throwable t) {
                 Log.d(".MainActvity", "No Data "+t.getMessage() );
+
 
             }
         });

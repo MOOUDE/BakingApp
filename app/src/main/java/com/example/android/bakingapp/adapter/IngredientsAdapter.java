@@ -38,6 +38,9 @@ private double quanitiyText;
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+
+
         measureText = ingredient.get(i).getMeasure();
         quanitiyText = ingredient.get(i).getQuantity();
         ingredientText = ingredient.get(i).getIngredient();
@@ -46,6 +49,7 @@ private double quanitiyText;
         ((IngredientItem)viewHolder).ingredient.setText(ingredientText);
         ((IngredientItem)viewHolder).measure.setText(measureText);
         ((IngredientItem)viewHolder).quantity.setText(String.valueOf(quanitiyText));
+
 
     }
 

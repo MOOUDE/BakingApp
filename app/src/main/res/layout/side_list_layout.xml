@@ -4,10 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.baking_make">
+    tools:context=".activity.BakingMake">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ingradentsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/stepsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
