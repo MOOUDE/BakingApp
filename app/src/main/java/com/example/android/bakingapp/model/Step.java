@@ -1,12 +1,13 @@
 package com.example.android.bakingapp.model;
 
+import android.arch.lifecycle.ViewModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Step implements Parcelable {
+public class Step extends ViewModel implements Parcelable {
 
     @SerializedName("id")
     @Expose

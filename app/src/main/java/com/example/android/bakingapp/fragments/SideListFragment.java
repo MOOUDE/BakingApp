@@ -67,7 +67,6 @@ public class SideListFragment extends Fragment {
         stepRecyclerView.setAdapter(new StepsAdapter( steps, rootView.getContext() , stepListener));
 
 
-
         return rootView;
     }
 
