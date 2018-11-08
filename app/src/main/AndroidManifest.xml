@@ -3,6 +3,8 @@
     package="com.example.android.bakingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <application
         android:allowBackup="true"
@@ -18,17 +20,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.BakingMake"
-            android:launchMode="singleTop"
+        <service android:enabled="true" android:permission="android.permission.BIND_REMOTEVIEWS" android:name=".adapter.WidgetService" />
+        <service
+            android:name=".adapter.ListWidgetServics"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <activity
+            android:name=".activity.BakingMake"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            >
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.Baking_make" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MakeDetails"></activity>
+        <activity android:name=".activity.MakeDetails" />
+
+        <receiver android:name=".activity.BakingWedget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_wedget_info" />
+        </receiver>
     </application>
 
 </manifest>

@@ -22,6 +22,8 @@ public class MakeDetails extends AppCompatActivity {
     private int clickedPosition;
 
 
+
+
     private FragmentManager fragmentManager;
 
 

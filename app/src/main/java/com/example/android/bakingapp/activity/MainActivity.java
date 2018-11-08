@@ -1,11 +1,19 @@
 package com.example.android.bakingapp.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.android.bakingapp.R;
@@ -31,11 +39,37 @@ private RecyclerView bakingRecyclerView;
 private final String INTEGRADINTS_KEY = "integradentsKey";
 private final String STEPS_KEY = "StepsKey";
 
+private final  int WIDE_SCREEN_SPAN_COUNT = 3;
+private final  int LAND_SCAPE_SPAN_COUNT = 2;
+
+private Button refreshBtn;
+
+private boolean mWideScreen;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(findViewById(R.id.main_linear) != null) {
+            mWideScreen = true;
+        }else{
+            mWideScreen = false;
+        }
+        refreshBtn = findViewById(R.id.refresh);
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refresh(v);
+            }
+        });
+
+        if(!isConnected()){
+            refreshBtn.setVisibility(View.VISIBLE);
+        }
+
+
         callJson();
 
 
@@ -54,8 +88,16 @@ private final String STEPS_KEY = "StepsKey";
 
 
                 bakingRecyclerView = (RecyclerView) findViewById(R.id.backingRecycler);
-                bakingRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                if(mWideScreen){
+                    bakingRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this ,WIDE_SCREEN_SPAN_COUNT));
 
+
+                }else if(isLnadScape()){
+                    bakingRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this ,LAND_SCAPE_SPAN_COUNT));
+
+                } else {
+                    bakingRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                }
                 BakingAdapter.BakingClickedListener listener = new BakingAdapter.BakingClickedListener() {
                     @Override
                     public void onBakingClick(int clicked_position) {
@@ -65,8 +107,8 @@ private final String STEPS_KEY = "StepsKey";
 
 
                         Intent intent = new Intent(MainActivity.this , com.example.android.bakingapp.activity.BakingMake.class);
-                        intent.putParcelableArrayListExtra(INTEGRADINTS_KEY ,bakings.get(clicked_position).getSteps());
                         intent.putParcelableArrayListExtra(STEPS_KEY ,bakings.get(clicked_position).getSteps());
+                        intent.putParcelableArrayListExtra(INTEGRADINTS_KEY , bakings.get(clicked_position).getIngredients());
                         startActivity(intent);
                     }
                 };
@@ -84,7 +126,30 @@ private final String STEPS_KEY = "StepsKey";
 
             }
         });
+
     }
+    private boolean isLnadScape(){
+        int orientation = getResources().getConfiguration().orientation;
+
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE){
+            return true;
+        }
+        return false;
+    }
+
+    public void refresh(View v){
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+
 
 
 

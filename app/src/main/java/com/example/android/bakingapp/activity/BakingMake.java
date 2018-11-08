@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.adapter.IngredientsAdapter;
 import com.example.android.bakingapp.adapter.StepsAdapter;
 import com.example.android.bakingapp.fragments.MakeDetailsFragment;
 import com.example.android.bakingapp.fragments.SideListFragment;
@@ -40,21 +41,21 @@ private int clickedPosition;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.baking_activity);
 
-        /*
+/*
         ingredients = getIntent().getParcelableArrayListExtra(INTEGRADINTS_KEY);
 
         ingredientsRecycler = (RecyclerView) findViewById(R.id.ingradentsRecycler);
         ingredientsRecycler.setLayoutManager(new LinearLayoutManager(BakingMake.this));
         ingredientsRecycler.setAdapter(new IngredientsAdapter(ingredients, this));
+*/
 
-       */
 
-       /*
+/*
 
         stepRecyclerView = (RecyclerView) findViewById(R.id.stepsRecyclerView);
         stepRecyclerView.setLayoutManager(new LinearLayoutManager(BakingMake.this));
-        stepRecyclerView.setAdapter(new StepsAdapter( steps, this));
-        */
+        stepRecyclerView.setAdapter(new StepsAdapter( steps, getApplicationContext() , null));
+*/
 
        if (findViewById(R.id.vertical_linear) != null){
            mTwoPane = true;
