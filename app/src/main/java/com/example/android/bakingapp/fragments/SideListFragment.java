@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.activity.BakingMake;
 import com.example.android.bakingapp.activity.MainActivity;
+import com.example.android.bakingapp.adapter.IngredientsAdapter;
 import com.example.android.bakingapp.adapter.StepsAdapter;
+import com.example.android.bakingapp.model.Ingredient;
 import com.example.android.bakingapp.model.Step;
 
 import java.util.ArrayList;
@@ -26,7 +28,13 @@ public class SideListFragment extends Fragment {
 
     private RecyclerView stepRecyclerView;
     private ArrayList<Step> steps;
+    private ArrayList<Ingredient> ingredients;
     public final String STEPS_KEY_2 = "StepsKey2";
+
+
+    private RecyclerView ingredientsRecycler;
+    private final String INTEGRADINTS_KEY = "integradentsKey";
+
 
 
     public onRecyclerItemClicked mCallBack;
@@ -47,6 +55,8 @@ public class SideListFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.side_list_layout , container , false);
 
         steps = getArguments().getParcelableArrayList(STEPS_KEY_2);
+        ingredients = getArguments().getParcelableArrayList(INTEGRADINTS_KEY);
+
         stepRecyclerView = (RecyclerView) rootView.findViewById(R.id.stepsRecyclerView);
         stepRecyclerView.setLayoutManager(new LinearLayoutManager(  getActivity()));
 
@@ -62,9 +72,25 @@ public class SideListFragment extends Fragment {
 
             }
         };
+        stepRecyclerView.setNestedScrollingEnabled(false);
+
+
 
 
         stepRecyclerView.setAdapter(new StepsAdapter( steps, rootView.getContext() , stepListener));
+
+        Log.d(".side","size ing" + ingredients.size());
+
+
+
+
+        ingredientsRecycler = (RecyclerView) rootView.findViewById(R.id.ingradentsRecycler);
+        ingredientsRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Log.d("ingrediants" , "ing adapter size "+ingredients.size());
+        ingredientsRecycler.setAdapter(new IngredientsAdapter(ingredients, rootView.getContext()));
+
+        ingredientsRecycler.setNestedScrollingEnabled(false);
+
 
 
         return rootView;

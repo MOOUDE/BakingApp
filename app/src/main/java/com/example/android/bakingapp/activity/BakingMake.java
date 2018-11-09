@@ -24,6 +24,8 @@ private ArrayList<Ingredient> ingredients;
 
 private RecyclerView stepRecyclerView;
 public ArrayList<Step> steps;
+
+
 public final String STEPS_KEY = "StepsKey";
 public final String STEPS_KEY_2 = "StepsKey2";
 public final String CLICKED_POSITION = "clickedPosition";
@@ -57,6 +59,7 @@ private int clickedPosition;
         stepRecyclerView.setAdapter(new StepsAdapter( steps, getApplicationContext() , null));
 */
 
+
        if (findViewById(R.id.vertical_linear) != null){
            mTwoPane = true;
        }else {
@@ -67,11 +70,17 @@ private int clickedPosition;
 
            clickedPosition = getIntent().getIntExtra(CLICKED_POSITION , 0);
            steps = getIntent().getParcelableArrayListExtra(STEPS_KEY);
+           ingredients = getIntent().getParcelableArrayListExtra(INTEGRADINTS_KEY);
+           Log.d("MakeDetails" , "ing size is "+ingredients.size());
+
+
 
            SideListFragment sideList = new SideListFragment();
 
            Bundle bundle = new Bundle();
            bundle.putParcelableArrayList(STEPS_KEY_2 , steps);
+           bundle.putParcelableArrayList(INTEGRADINTS_KEY , ingredients);
+
            sideList.setArguments(bundle);
 
            FragmentManager fragmentManager = getSupportFragmentManager();
@@ -84,6 +93,8 @@ private int clickedPosition;
 
                 Log.d("MakeDetails" , "step size is "+steps.size());
                 bundle2.putParcelableArrayList(STEPS_KEY_2 , steps);
+                bundle2.putParcelableArrayList(INTEGRADINTS_KEY , ingredients);
+
                 bundle2.putInt(CLICKED_POSITION , clickedPosition);
                 bundle2.putBoolean(TWO_PANE , mTwoPane);
 
@@ -99,7 +110,6 @@ private int clickedPosition;
 
 
 
-
     @Override
     public void onItemClicked(int position) {
         Log.d(".BakingMake" , "Item Clicked msg from Baking Activity "+position);
@@ -107,6 +117,9 @@ private int clickedPosition;
         if(!mTwoPane) {
             Intent intent = new Intent(this, MakeDetails.class);
             intent.putExtra(STEPS_KEY, steps);
+            intent.putExtra(INTEGRADINTS_KEY , ingredients);
+            Log.d("Ingrediant" , "size is ing "+ingredients.size());
+
             intent.putExtra(CLICKED_POSITION, position);
             startActivity(intent);
         }else{
@@ -117,10 +130,11 @@ private int clickedPosition;
             Bundle bundle = new Bundle();
             bundle.putBoolean(TWO_PANE, mTwoPane);
             bundle.putParcelableArrayList(STEPS_KEY_2 , steps);
+            bundle.putParcelableArrayList(INTEGRADINTS_KEY , ingredients);
 
             makeDetailsFragment.setArguments(bundle);
             makeDetailsFragment.setmStepIndex(position);
-
+            Log.d(".Ingrediants" ,"size before send to fragment "+ingredients.size());
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detailsFramgent , makeDetailsFragment).commit();
 

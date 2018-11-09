@@ -108,6 +108,7 @@ private boolean mWideScreen;
 
                         Intent intent = new Intent(MainActivity.this , com.example.android.bakingapp.activity.BakingMake.class);
                         intent.putParcelableArrayListExtra(STEPS_KEY ,bakings.get(clicked_position).getSteps());
+                        Log.d(".Indgrediant" , "ingrediant Size" + bakings.get(clicked_position).getIngredients().size());
                         intent.putParcelableArrayListExtra(INTEGRADINTS_KEY , bakings.get(clicked_position).getIngredients());
                         startActivity(intent);
                     }

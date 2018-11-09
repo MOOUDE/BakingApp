@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.model.Ingredient;
 import com.example.android.bakingapp.model.Step;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -42,11 +43,17 @@ import java.util.ArrayList;
 
 public class MakeDetailsFragment extends Fragment {
     private ArrayList<Step> steps;
+    private ArrayList<Ingredient> ingredients;
     public final String STEPS_KEY = "StepsKey";
     public final String STEPS_KEY_2 = "StepsKey2";
+    public final String INTEGRADINTS_KEY = "integradentsKey";
+
+
     public final String CLICKED_POSITION = "clickedPosition";
     public final String STEP_INDEX = "stepIndex";
     public final String TWO_PANE = "twoPane";
+
+
 
 
     private PlayerView playerView;
@@ -78,6 +85,11 @@ public class MakeDetailsFragment extends Fragment {
         this.steps = steps;
     }
 
+    public void setSIngrediants(ArrayList<Ingredient> ingrediants) {
+        this.ingredients = ingrediants;
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,6 +98,7 @@ public class MakeDetailsFragment extends Fragment {
 
 
             steps = getArguments().getParcelableArrayList(STEPS_KEY_2);
+            ingredients = getArguments().getParcelableArrayList(INTEGRADINTS_KEY);
 
 
         if(getArguments().getBoolean(TWO_PANE)){
