@@ -112,32 +112,6 @@ boolean isUpdateAction;
                 v.setTextViewText(R.id.bakeTitle, "" + bakings.get(BakingWedget.POSITION_TO_FETCH).getName());
 
 
-
-
-
-
-
-               /* CharSequence widgetText = context.getString(R.string.appwidget_text);
-                // Construct the RemoteViews object
-
-
-                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_wedget);
-                views.setTextViewText(R.id.bakeTitle, "" + bakings.get(0).getName());
-
-
-                //create Pending Intent
-                Intent intent = new Intent(context, MainActivity.class);
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-                views.setOnClickPendingIntent(R.id.bakeTitle, pendingIntent);
-
-
-                Intent ints = new Intent(context, BakingWedget.class);
-                ints.putExtra("list", bakings.get(0).getSteps());
-
-                views.setRemoteAdapter(R.id.widget_list, ints);
-*/
-
             }
 
             @Override

@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +24,6 @@ import com.example.android.bakingapp.adapter.BakingAdapter;
 import com.example.android.bakingapp.model.Baking;
 import com.example.android.bakingapp.network.GetBakingData;
 import com.example.android.bakingapp.network.RetrofitInstance;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -29,9 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
 private ArrayList<Baking> bakings;
@@ -46,11 +46,16 @@ private Button refreshBtn;
 
 private boolean mWideScreen;
 
+    @Nullable private SimpleIdellingResources mIdlingResource
+            = new SimpleIdellingResources();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         if(findViewById(R.id.main_linear) != null) {
             mWideScreen = true;
@@ -83,6 +88,12 @@ private boolean mWideScreen;
         bakingService.getBakings().enqueue(new Callback<ArrayList<Baking>>() {
             @Override
             public void onResponse(Call<ArrayList<Baking>> call, Response<ArrayList<Baking>> response) {
+
+                if(mIdlingResource != null) {
+                    Log.d(".MainActvity", "Idling false");
+                    mIdlingResource.setIdleState(false);
+                }
+
                 Log.d(".MainActvity", "Got Data Sucssfully");
                 bakings = response.body();
 
@@ -116,6 +127,9 @@ private boolean mWideScreen;
 
 
                 bakingRecyclerView.setAdapter(new BakingAdapter(MainActivity.this ,bakings ,listener));
+                if(mIdlingResource != null)
+                   mIdlingResource.setIdleState(true);
+                    Log.d(".MainActvity", "Idling true");
 
 
             }
@@ -150,6 +164,15 @@ private boolean mWideScreen;
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            Log.d("creating" , "idel");
+            mIdlingResource = new SimpleIdellingResources();
+        }
+        return mIdlingResource;
+    }
 
 
 

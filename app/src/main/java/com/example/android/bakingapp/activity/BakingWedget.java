@@ -22,6 +22,7 @@ import com.example.android.bakingapp.adapter.BakingAdapter;
 import com.example.android.bakingapp.adapter.ListWidgetServics;
 import com.example.android.bakingapp.adapter.WidgetService;
 import com.example.android.bakingapp.model.Baking;
+import com.example.android.bakingapp.model.Ingredient;
 import com.example.android.bakingapp.model.Step;
 import com.example.android.bakingapp.network.GetBakingData;
 import com.example.android.bakingapp.network.RetrofitInstance;
@@ -77,7 +78,7 @@ public class BakingWedget extends AppWidgetProvider {
 
         if (bakings != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                POSITION_TO_FETCH = ThreadLocalRandom.current().nextInt(0, bakings.size() + 1);
+                POSITION_TO_FETCH = ThreadLocalRandom.current().nextInt(0, bakings.size() );
             }
 
             //  views.setTextViewText(R.id.bakeTitle, "Title : " + bakings.get(0).getName());
@@ -164,11 +165,11 @@ public class BakingWedget extends AppWidgetProvider {
 
 
     }
-    public static ArrayList<Step> shareSteps() {
+    public static ArrayList<Ingredient> shareIngrident() {
         if (bakingsToDisplay != null) {
-            return bakingsToDisplay.get(POSITION_TO_FETCH).getSteps();
+            return bakingsToDisplay.get(POSITION_TO_FETCH).getIngredients();
         }
-        return bakingsToDisplay.get(0).getSteps();
+        return bakingsToDisplay.get(0).getIngredients();
     }
 
 

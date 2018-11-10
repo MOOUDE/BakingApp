@@ -10,21 +10,23 @@ import android.widget.RemoteViewsService;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.activity.BakingWedget;
 import com.example.android.bakingapp.model.Baking;
+import com.example.android.bakingapp.model.Ingredient;
 import com.example.android.bakingapp.model.Step;
 
 import java.util.ArrayList;
 
  public class ListWidgetServics extends RemoteViewsService {
 
-     private ArrayList<Step> mSteps;
+     private ArrayList<Ingredient> mIngredinants;
      Step st;
 
      public ListWidgetServics() {
          Log.d(".List","setting msteps");
 
      }
-     public ListWidgetServics(ArrayList<Step> steps) {
-         this.mSteps = steps;
+     public ListWidgetServics(ArrayList<Ingredient> ingredients) {
+         this.mIngredinants = ingredients;
+
 
 
      }
@@ -35,16 +37,16 @@ import java.util.ArrayList;
          Log.d(".List","setting Parcelable ");
 
 
-         return new WidegetListVewFactory(this.getApplicationContext(), mSteps);
+         return new WidegetListVewFactory(this.getApplicationContext(), mIngredinants);
      }
  }
 
  class WidegetListVewFactory implements RemoteViewsService.RemoteViewsFactory {
     private Context mContext;
-    private ArrayList<Step>mSteps;
+    private ArrayList<Ingredient>mIngrediant;
 
 
-     public WidegetListVewFactory(Context context ,ArrayList<Step> steps){
+     public WidegetListVewFactory(Context context ,ArrayList<Ingredient> ingredients){
         Log.d(".Test", "Data is call");
         this.mContext = context;
 
@@ -64,10 +66,10 @@ import java.util.ArrayList;
             e.printStackTrace();
         }
 
-        mSteps = BakingWedget.shareSteps();
+        mIngrediant = BakingWedget.shareIngrident();
 
 
-        Log.d(".Test", "Data is chaingin : "+mSteps.size());
+        Log.d(".Test", "Data is chaingin : "+mIngrediant.size());
 
 
     }
@@ -80,21 +82,22 @@ import java.util.ArrayList;
     @Override
     public int getCount() {
         Log.d(".count","Counting");
-        if(mSteps == null) return 0;
-        return mSteps.size();
+        if(mIngrediant == null) return 0;
+        return mIngrediant.size();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
-        if(mSteps == null || mSteps.size() == 0) return null;
+        if(mIngrediant == null || mIngrediant.size() == 0) return null;
 
         RemoteViews views = new RemoteViews(mContext.getPackageName() , R.layout.widget_row);
 
-        Log.d(".Test", "Data is setting"+mSteps.get(position).getShortDescription());
+        Log.d(".Test", "Data is setting"+mIngrediant.get(position).getIngredient());
 
 
-        views.setTextViewText(R.id.stepNameWidget ,mSteps.get(position).getShortDescription());
-        views.setTextViewText(R.id.stepDetailsWidget ,mSteps.get(position).getDescription());
+        views.setTextViewText(R.id.IngrediantName ,mIngrediant.get(position).getIngredient());
+        views.setTextViewText(R.id.ingrediantMuch ,mIngrediant.get(position).getQuantity().toString());
+        views.setTextViewText(R.id.ingrediantUnit ,mIngrediant.get(position).getMeasure());
 
 
 

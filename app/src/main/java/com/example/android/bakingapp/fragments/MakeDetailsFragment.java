@@ -38,6 +38,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
 
@@ -184,6 +185,7 @@ public class MakeDetailsFragment extends Fragment {
         dialog = new Dialog(getContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         ((ViewGroup) playerView.getParent()).removeView(playerView);
         dialog.addContentView(playerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        player.setPlayWhenReady(true);
         fullScreen = true;
         dialog.show();
     }
@@ -212,17 +214,24 @@ public class MakeDetailsFragment extends Fragment {
 
             playerView.setPlayer(player);
 
-            player.setPlayWhenReady(true);
             Uri uri = Uri.parse(mediaUrl);
 
             MediaSource mediaSource = buildMediaSource(uri);
             player.prepare(mediaSource, true, false);
             player.seekTo(pos);
+            player.setPlayWhenReady(true);
+
 
             if (getActivity().getResources().getConfiguration().orientation ==
+
                     Configuration.ORIENTATION_LANDSCAPE) {
-                if(vedioExist && !mTwoPane)
-                 openFullscreenDialog();
+                try {
+                    if (vedioExist && !mTwoPane && (player != null)) {
+                        openFullscreenDialog();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
             }
         }
@@ -244,8 +253,10 @@ public class MakeDetailsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        position = player.getCurrentPosition();
-        outState.putLong( POSITION , position);
+        if((player) != null) {
+            position = player.getCurrentPosition();
+            outState.putLong(POSITION, position);
+        }
         outState.putInt(STEP_INDEX , mStepIndex);
 
 
@@ -256,13 +267,28 @@ public class MakeDetailsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        if(dialog !=null){
+            dialog.dismiss();
+        }
+
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(dialog !=null){
+            dialog.dismiss();
+        }
 
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        stopExoPlayer();
-
+        if(player !=null){
+            stopExoPlayer();
+        }
     }
 }
+

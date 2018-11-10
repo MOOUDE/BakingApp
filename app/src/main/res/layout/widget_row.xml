@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
         <TextView
-            android:id="@+id/stepNameWidget"
+            android:id="@+id/IngrediantName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -22,9 +22,13 @@
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Step Name" />
+            tools:text="IngrediantName" />
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal">
             <TextView
-                android:id="@+id/stepDetailsWidget"
+                android:id="@+id/ingrediantUnit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -33,7 +37,21 @@
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Step Details" />
+                tools:text="KG" />
+
+               <TextView
+                   android:id="@+id/ingrediantMuch"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="24dp"
+                   android:layout_marginLeft="24dp"
+                   android:layout_marginTop="24dp"
+                   android:textSize="16sp"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   tools:text="5" />
+
+           </LinearLayout>
 
         </LinearLayout>
 
