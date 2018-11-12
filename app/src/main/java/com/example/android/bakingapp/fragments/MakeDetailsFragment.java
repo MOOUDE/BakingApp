@@ -5,23 +5,17 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.media.session.MediaSession;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +30,6 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
@@ -53,6 +46,7 @@ public class MakeDetailsFragment extends Fragment {
     public final String CLICKED_POSITION = "clickedPosition";
     public final String STEP_INDEX = "stepIndex";
     public final String TWO_PANE = "twoPane";
+    public final String PLAY_STATUS = "playStatus";
 
 
 
@@ -76,6 +70,7 @@ public class MakeDetailsFragment extends Fragment {
 
     private long position = 0 ;
     private final String POSITION = "position";
+    boolean PlayStatus;
 
 
     public void setmStepIndex(int mStepIndex) {
@@ -97,7 +92,6 @@ public class MakeDetailsFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.details_layout_fragment , container , false);
 
-
             steps = getArguments().getParcelableArrayList(STEPS_KEY_2);
             ingredients = getArguments().getParcelableArrayList(INTEGRADINTS_KEY);
 
@@ -115,7 +109,9 @@ public class MakeDetailsFragment extends Fragment {
         if (savedInstanceState != null ){
             position = savedInstanceState.getLong(POSITION);
             mStepIndex = savedInstanceState.getInt(STEP_INDEX , 0);
-
+            PlayStatus = (savedInstanceState.getBoolean(PLAY_STATUS));
+        }else{
+            PlayStatus = true;
         }
 
             Log.d("MakeDetails" , "size is "+steps.size());
@@ -126,14 +122,14 @@ public class MakeDetailsFragment extends Fragment {
             previousBtn = (Button) rootView.findViewById(R.id.previousbtn);
             noVedioImage = (ImageView) rootView.findViewById(R.id.noVedioImage);
 
-            nextBtn.setOnClickListener(new View.OnClickListener() {
+        final boolean finalPlayStatus = PlayStatus;
+        nextBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getContext() , "to Next " , Toast.LENGTH_SHORT).show();
                     mStepIndex++;
                     Log.d("index" , "index is "+mStepIndex);
-                    goChangeContent(getContext() , mStepIndex);
-
+                    goChangeContent(getContext() , mStepIndex , finalPlayStatus);
                 }
             });
 
@@ -142,7 +138,7 @@ public class MakeDetailsFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getContext() , "to previous " , Toast.LENGTH_SHORT).show();
                 mStepIndex--;
-                goChangeContent(getContext() , mStepIndex);
+                goChangeContent(getContext() , mStepIndex , finalPlayStatus);
                 Log.d("index" , "index is "+mStepIndex);
 
             }
@@ -155,7 +151,7 @@ public class MakeDetailsFragment extends Fragment {
 
 
 
-            initializePlayer(mediaUrl, context, position);
+            initializePlayer(mediaUrl, context, position , PlayStatus);
 
 
 
@@ -166,7 +162,7 @@ public class MakeDetailsFragment extends Fragment {
 
     /**************/
 
-    public void goChangeContent(Context context , int index){
+    public void goChangeContent(Context context , int index , boolean playStatus){
 
         if (index > steps.size()-1  || index < 0 )
             index = 0 ;
@@ -175,7 +171,7 @@ public class MakeDetailsFragment extends Fragment {
         details.setText(steps.get(index).getDescription());
         mediaUrl = steps.get(index).getVideoURL();
 
-        initializePlayer(mediaUrl, context, position);
+        initializePlayer(mediaUrl, context, position , playStatus);
 
     }
 
@@ -185,7 +181,6 @@ public class MakeDetailsFragment extends Fragment {
         dialog = new Dialog(getContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         ((ViewGroup) playerView.getParent()).removeView(playerView);
         dialog.addContentView(playerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        player.setPlayWhenReady(true);
         fullScreen = true;
         dialog.show();
     }
@@ -195,7 +190,7 @@ public class MakeDetailsFragment extends Fragment {
     /**************/
 
 
-    private void initializePlayer(String mediaUrl ,Context con, long pos) {
+    private void initializePlayer(String mediaUrl ,Context con, long pos , boolean playStatus) {
         if(player == null ) {
 
             if(mediaUrl.equals("") || TextUtils.isEmpty(mediaUrl)) {
@@ -219,7 +214,7 @@ public class MakeDetailsFragment extends Fragment {
             MediaSource mediaSource = buildMediaSource(uri);
             player.prepare(mediaSource, true, false);
             player.seekTo(pos);
-            player.setPlayWhenReady(true);
+            player.setPlayWhenReady(playStatus);
 
 
             if (getActivity().getResources().getConfiguration().orientation ==
@@ -234,6 +229,8 @@ public class MakeDetailsFragment extends Fragment {
                 }
 
             }
+        }else {
+            player.setPlayWhenReady(playStatus);
         }
 
     }
@@ -244,43 +241,88 @@ public class MakeDetailsFragment extends Fragment {
     }
 
     private void stopExoPlayer(){
-        player.stop();
-        player.release();
-        player = null;
+if(player != null) {
+    player.stop();
+    player.release();
+    player = null;
+}
     }
 
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        boolean status = false;
         if((player) != null) {
             position = player.getCurrentPosition();
             outState.putLong(POSITION, position);
+
+
+            status = player.getPlayWhenReady();
+            outState.putBoolean(PLAY_STATUS ,status);
+            Log.d(".State" , "In state " + status);
+
+            outState.putInt(STEP_INDEX , mStepIndex);
         }
-        outState.putInt(STEP_INDEX , mStepIndex);
 
-
+        outState.putBoolean(PLAY_STATUS ,status);
         Log.d(".MakesaveInstace" , "In position " + position);
     }
+
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            initializePlayer(mediaUrl , getContext() , position , getPlayStatus());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if ((Util.SDK_INT <= 23 || player == null)) {
+            // initialize player
+            initializePlayer(mediaUrl , getContext() , position , getPlayStatus());
+
+        }
+    }
+
 
 
     @Override
     public void onPause() {
         super.onPause();
+        if (Util.SDK_INT <= 23) {
+           stopExoPlayer();
+        }
+
         if(dialog !=null){
             dialog.dismiss();
         }
-
 
     }
 
     @Override
     public void onStop() {
         super.onStop();
+          if (Util.SDK_INT > 23) {
+            stopExoPlayer();
+        }
         if(dialog !=null){
             dialog.dismiss();
         }
 
+    }
+
+    public void setPlayStatus(boolean PlayStatus) {
+        this.PlayStatus = PlayStatus;
+    }
+
+    public boolean getPlayStatus() {
+        return PlayStatus;
     }
 
     @Override
