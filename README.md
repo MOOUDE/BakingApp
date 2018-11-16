@@ -44,15 +44,15 @@ As a working Android developer, you often have to create and implement apps wher
 ### Phone Mode
 <table>
   <tr>
-    <td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/2.png?raw=true" alt="alt text" width="200px" height="350px"></td>
-    <td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/1.png?raw=true" alt="alt text" width="200px" height="350px"></td>
-  <td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/3.png?raw=true" alt="alt text" width="200px" height="350px"></td>
-  <td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/4.png?raw=true" alt="alt text" width="200px" height="350px"></td>  
+    <td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/2.png?raw=true" alt="Baking app Mohammad Odeh" width="200px" height="350px"></td>
+    <td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/1.png?raw=true" alt="Baking app Mohammad Odeh" width="200px" height="350px"></td>
+  <td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/3.png?raw=true" alt="Baking app Mohammad Odeh" width="200px" height="350px"></td>
+  <td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/4.png?raw=true" alt="Baking app Mohammad Odeh" width="200px" height="350px"></td>  
   </tr>
   </table>
   <table margin="0 auto">
   <tr>
-<td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/5.png?raw=true" alt="alt text" width="400px" height="200px"></td>
+<td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/5.png?raw=true" alt="Baking app Mohammad Odeh" width="400px" height="200px"></td>
 </tr>
 </table>
 
@@ -60,8 +60,8 @@ As a working Android developer, you often have to create and implement apps wher
 ### Tablet Mode
   <table margin="0 auto">
   <tr>
-<td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/7.png?raw=true" alt="alt text" width="400px" height="300px"></td>
-  <td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/8.png?raw=true" alt="alt text" width="400px" height="300px"></td>
+<td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/7.png?raw=true" alt="Baking app Mohammad Odeh" width="400px" height="300px"></td>
+  <td><img src="https://github.com/MOOUDE/BakingApp/blob/master/images/8.png?raw=true" alt="Baking app Mohammad Odeh" width="400px" height="300px"></td>
 </tr>
 </tr>
 </table>
