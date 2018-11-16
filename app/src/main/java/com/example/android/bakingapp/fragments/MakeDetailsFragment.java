@@ -104,7 +104,6 @@ public class MakeDetailsFragment extends Fragment {
             if(!mTwoPane)
              mStepIndex = getArguments().getInt(CLICKED_POSITION);
 
-
             position = 0;
         if (savedInstanceState != null ){
             position = savedInstanceState.getLong(POSITION);
@@ -129,6 +128,7 @@ public class MakeDetailsFragment extends Fragment {
                     Toast.makeText(getContext() , "to Next " , Toast.LENGTH_SHORT).show();
                     mStepIndex++;
                     Log.d("index" , "index is "+mStepIndex);
+
                     goChangeContent(getContext() , mStepIndex , finalPlayStatus);
                 }
             });
@@ -138,6 +138,7 @@ public class MakeDetailsFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getContext() , "to previous " , Toast.LENGTH_SHORT).show();
                 mStepIndex--;
+
                 goChangeContent(getContext() , mStepIndex , finalPlayStatus);
                 Log.d("index" , "index is "+mStepIndex);
 
@@ -167,6 +168,7 @@ public class MakeDetailsFragment extends Fragment {
         if (index > steps.size()-1  || index < 0 )
             index = 0 ;
         mStepIndex = index;
+        position = 0;
         stopExoPlayer();
         details.setText(steps.get(index).getDescription());
         mediaUrl = steps.get(index).getVideoURL();
